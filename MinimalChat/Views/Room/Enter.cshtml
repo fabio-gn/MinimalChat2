@@ -1,0 +1,149 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using MinimalChat.Areas.Identity.Data
+
+
+@inject SignInManager<MinimalChatUser> SignInManager
+@inject UserManager<MinimalChatUser> UserManager
+@model MinimalChat.Models.Domain.Rooms
+
+@{
+    ViewData["Title"] = "Enter";
+    
+}
+
+<div class="container-fluid" style="background-color: black; height: 100vh;">
+    <div class="row align-items-center justify-content-center">
+        <div class="col col-12 col-md-6" style="background-color: white">
+            <div class="d-flex flex-row-reverse align-items-center justify-content-end">
+        <h1> @Model.RoomName </h1>
+        <div>
+            <button class="btn btn-outline-dark" id="exitRoomButton">EXIT</button>
+        </div>
+            </div>
+
+
+        <form class="d-flex mb-5">
+
+            <input class="form-control" type="text" id="message-to-send" />
+
+
+            <button id="send-button" class="btn btn-dark">INVIA</button>
+        </form>
+        @* <button id="send-all" class="btn btn-success">Tutti</button> *@
+        <div id="conversazione" class="d-flex flex-column-reverse"></div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+    
+
+
+<script src="
+https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/8.0.0/signalr.min.js
+"></script>
+<script>
+    let sendButton = document.getElementById("send-button");
+    let sendAll = document.getElementById("send-all");
+    let conversazione = document.getElementById("conversazione");
+    let messageToSend = document.getElementById("message-to-send")
+    let connection = new signalR.HubConnectionBuilder().withUrl(`/Enter`).build();
+    
+
+    function SvuotaInput() {
+        document.getElementById("message-to-send").value = "";
+    }
+
+    // connection.start
+    connection.start().then(() => {
+        console.log("connessione iniziata")
+        let roomName = "@Model.Id.ToString()";
+        let username = "@UserManager.GetUserName(User)"
+        connection.invoke("JoinRoom", roomName, username).catch((err) => {
+            console.error(err.toString());
+        });
+    });
+
+    //RICEVI MESSAGGI
+    connection.on("ReceiveMessage", (message)=>{
+        let div = document.createElement("div")
+        div.innerHTML = `${message}`
+        console.log(div.textContent)
+        let conversazione = document.getElementById("conversazione")
+        conversazione.appendChild(div)
+    })
+    
+    //INVIA A STANZA
+    sendButton.addEventListener('click', (e) => {
+        e.preventDefault();
+        console.log("hai cliccato")
+        let roomName = "@Model.Id.ToString()";
+        console.log(roomName)
+
+        let message = document.getElementById("message-to-send").value;
+        console.log(message)
+        let username = "<b>@UserManager.GetUserName(User).ToString()<b/>"
+
+        //append message to conversazione
+        // let newMessage = document.createElement("div")
+        // newMessage.textContent = message;
+
+        connection.invoke("SendMessageToRoom", roomName, message, username).catch((err) => {
+            console.log("entra nella funzione connection.invoke")
+            return console.error(err.toString());
+        })
+        messageToSend.value = "";
+
+    })
+
+    //INVIA A TUTTI
+    sendAll.addEventListener('click', (e) => {
+        e.preventDefault();
+        console.log("hai cliccato")
+        let user = "pippo"
+        
+
+        let message = document.getElementById("message-to-send").value;
+        console.log(message)
+
+        connection.invoke("SendMessage", user, message).catch((err) => {
+            console.log("entra nella funzione connection.invoke")
+            return console.error(err.toString());
+        })
+
+    })
+
+    //Connessione chiusa
+    connection.onclose(() => {
+        let roomName = "@Model.Id.ToString()";
+        let username = "@UserManager.GetUserName(User)"
+        connection.invoke("LeaveRoom", roomName, username).catch((err) => {
+            console.error(err.toString());
+        });
+    });
+
+    //Pulsante ESCI
+    document.getElementById("exitRoomButton").addEventListener("click", function (event) {
+        //Connessione chiusa
+        // connection.onclose(() => {
+        //     let roomName = "@Model.Id.ToString()";
+        //     let username = "@UserManager.GetUserName(User)"
+        //     connection.invoke("LeaveRoom", roomName, username).catch((err) => {
+        //         console.error(err.toString());
+        //     });
+        // });
+        let roomName = "@Model.Id.ToString()";
+        let username = "@UserManager.GetUserName(User)"
+        connection.invoke("LeaveRoom", roomName, username).catch((err) => {
+            console.error(err.toString());
+        });
+        connection.stop(); // interrompo la connessione
+        //metto il messagio "tizio è uscito dalla chat"
+        window.location.href = "https://localhost:7028"
+        event.preventDefault();
+    });
+</script>

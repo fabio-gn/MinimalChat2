@@ -1,0 +1,65 @@
+﻿@model List<MinimalChat.Models.Domain.Rooms>
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col col-12 col-md-6">
+            <div class="text-center">
+                <h1 class="display-4">MinimalChat</h1>
+
+            </div>
+
+
+            <a class="btn btn-outline-dark" asp-action="CreateRoom" asp-controller="Home" role="button">Crea stanza</a>
+
+            <table>
+
+                <tbody>
+                    <tr>
+                        <th>
+                            Room
+                        </th>
+                        <th>
+                            Description
+                        </th>
+                        <th>
+
+                        </th>
+                    </tr>
+
+                </tbody>
+                @try
+                {
+                    @foreach (MinimalChat.Models.Domain.Rooms room in ViewBag.Rooms)
+                    {
+                        <tr>
+                            <td class="me-5 fw-bold">
+                                @room.RoomName
+                            </td>
+                            <td class="me-4">
+                                @room.RoomDescription
+                            </td>
+                            <td>
+                                <a class="btn btn-dark" asp-controller="Room" asp-action="Enter" asp-route-id="@room.Id">Partecipa</a>
+                            </td>
+                        </tr>
+                    }
+                }
+                catch
+                {
+                    <tr></tr>
+                }
+
+            </table>
+
+
+
+
+        </div>
+    </div>
+</div>
+
