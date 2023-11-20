@@ -19,7 +19,8 @@ public class MinimalChatUser : IdentityUser
     //public int RoleId { get; set; }
     //public Roles Roles { get; set; }
 
-    public string UserName { get; set; }
+    //ELIMINARE, è la causa del bug che mostra email invece di nome
+    //public string UserName { get; set; }
     
     //[ForeignKey(nameof(Rooms))]
     //public int RoomsId { get; set; }

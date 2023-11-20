@@ -17,8 +17,9 @@
             <div class="d-flex flex-row-reverse align-items-center justify-content-end">
         <h1> @Model.RoomName </h1>
         <div>
-            <button class="btn btn-outline-dark" id="exitRoomButton">EXIT</button>
+              
         </div>
+                <button id="exitRoomButton" class="btn btn-outline-dark">EXIT</button>
             </div>
 
 
@@ -51,6 +52,7 @@ https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/8.0.0/signalr.min.js
     let sendAll = document.getElementById("send-all");
     let conversazione = document.getElementById("conversazione");
     let messageToSend = document.getElementById("message-to-send")
+    let exitButton = document.getElementById("exitRoomButton")
     let connection = new signalR.HubConnectionBuilder().withUrl(`/Enter`).build();
     
 
@@ -100,22 +102,22 @@ https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/8.0.0/signalr.min.js
 
     })
 
-    //INVIA A TUTTI
-    sendAll.addEventListener('click', (e) => {
-        e.preventDefault();
-        console.log("hai cliccato")
-        let user = "pippo"
+    // //INVIA A TUTTI
+    // sendAll.addEventListener('click', (e) => {
+    //     e.preventDefault();
+    //     console.log("hai cliccato")
+    //     let user = "pippo"
         
 
-        let message = document.getElementById("message-to-send").value;
-        console.log(message)
+    //     let message = document.getElementById("message-to-send").value;
+    //     console.log(message)
 
-        connection.invoke("SendMessage", user, message).catch((err) => {
-            console.log("entra nella funzione connection.invoke")
-            return console.error(err.toString());
-        })
+    //     connection.invoke("SendMessage", user, message).catch((err) => {
+    //         console.log("entra nella funzione connection.invoke")
+    //         return console.error(err.toString());
+    //     })
 
-    })
+    // })
 
     //Connessione chiusa
     connection.onclose(() => {
@@ -127,15 +129,9 @@ https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/8.0.0/signalr.min.js
     });
 
     //Pulsante ESCI
-    document.getElementById("exitRoomButton").addEventListener("click", function (event) {
-        //Connessione chiusa
-        // connection.onclose(() => {
-        //     let roomName = "@Model.Id.ToString()";
-        //     let username = "@UserManager.GetUserName(User)"
-        //     connection.invoke("LeaveRoom", roomName, username).catch((err) => {
-        //         console.error(err.toString());
-        //     });
-        // });
+    
+    exitButton.addEventListener("click", function (event) {
+        event.preventDefault();
         let roomName = "@Model.Id.ToString()";
         let username = "@UserManager.GetUserName(User)"
         connection.invoke("LeaveRoom", roomName, username).catch((err) => {
@@ -144,6 +140,6 @@ https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/8.0.0/signalr.min.js
         connection.stop(); // interrompo la connessione
         //metto il messagio "tizio è uscito dalla chat"
         window.location.href = "https://localhost:7028"
-        event.preventDefault();
+        
     });
 </script>
