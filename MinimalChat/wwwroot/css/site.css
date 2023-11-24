@@ -15,4 +15,61 @@ html {
 
 body {
   margin-bottom: 60px;
+  background-color: black;
+  color: white;
+}
+.colored-text{
+    color: red;
+}
+
+table{
+    width: 100%;
+    border: 1px solid black;
+}
+th{
+    background-color: white;
+    color: black;
+    padding: 1rem;
+}
+td{
+    padding: 1rem;
+}
+input{
+    margin: .5rem;
+}
+nav nav-link{
+    color: white !important;
+    background-color: black;
+}
+.navbar-brand{
+    font-weight: bold;
+    font-size: 2rem;
+}
+#conversazione div{
+    color: white;
+    margin-bottom: .6rem;
+}
+container div.col12{
+    height: 100vh !important;
+}
+button{
+    margin: 0 8px;
+}
+#message-to-send{
+    height: 100%;
+    margin: 0;
+}
+#send-message-form {
+    height: 4rem;
+    justify-content: space-between !important;
+}
+#exitRoomButton{
+    margin-left: 0;
+    
+}
+input{
+    color: black;
+}
+label{
+    color: black;
 }

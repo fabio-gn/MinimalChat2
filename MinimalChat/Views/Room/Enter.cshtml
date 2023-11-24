@@ -13,22 +13,22 @@
 
 <div class="container-fluid" style="background-color: black; height: 100vh;">
     <div class="row align-items-center justify-content-center">
-        <div class="col col-12 col-md-6" style="background-color: white">
+        <div class="col col-12 col-md-6">
             <div class="d-flex flex-row-reverse align-items-center justify-content-end">
         <h1> @Model.RoomName </h1>
         <div>
               
         </div>
-                <button id="exitRoomButton" class="btn btn-outline-dark">EXIT</button>
-            </div>
+                <button id="exitRoomButton" class="btn btn-outline-danger">EXIT</button>
+        </div>
 
 
-        <form class="d-flex mb-5">
+        <form id="send-message-form" class="d-flex mb-5">
 
             <input class="form-control" type="text" id="message-to-send" />
 
 
-            <button id="send-button" class="btn btn-dark">INVIA</button>
+            <button id="send-button" class="btn btn-outline-light">INVIA</button>
         </form>
         @* <button id="send-all" class="btn btn-success">Tutti</button> *@
         <div id="conversazione" class="d-flex flex-column-reverse"></div>
@@ -73,7 +73,16 @@ https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/8.0.0/signalr.min.js
     //RICEVI MESSAGGI
     connection.on("ReceiveMessage", (message)=>{
         let div = document.createElement("div")
+        
         div.innerHTML = `${message}`
+        if (div.innerText.match("has joined the room") || div.innerText.match("has left")) {
+            div.classList = "message fw-6 border border-light p-2 rounded-3"
+        }
+        else {
+            div.classList = "message fw-6 border border-light p-2 rounded-3"
+            div.setAttribute("style", "background-color: white; color: black")
+        }
+        
         console.log(div.textContent)
         let conversazione = document.getElementById("conversazione")
         conversazione.appendChild(div)

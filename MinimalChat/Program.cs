@@ -9,6 +9,8 @@ builder.Services.AddDbContext<MinimalChatDbContext>(options =>
     options.UseSqlServer(connectionString));
 
 builder.Services.AddDefaultIdentity<MinimalChatUser>(options => options.SignIn.RequireConfirmedAccount = false)
+    //(per i ruoli)
+    //.AddRoles<IdentityRole>() 
     .AddEntityFrameworkStores<MinimalChatDbContext>();
 
 // Add services to the container.
@@ -39,5 +41,28 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 app.MapRazorPages();
+
+
+//PER I RUOLI---------------------------------------------------------------------------------
+//using(var scope = app.Services.CreateScope())
+//{
+//    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+//    var roles = new[] { "Admin", "Member", "Guest" };
+//    foreach (var role in roles)
+//    {
+//        if (!await roleManager.RoleExistsAsync(role))
+//            await roleManager.CreateAsync(new IdentityRole(role));
+//    }
+//}
+//using (var scope = app.Services.CreateScope())
+//{
+//    var usermManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityRole>>();
+//    if(await usermManager.FindByEmailAsync(email) == null)
+//    {
+
+//    }
+  
+//}
+//----------------------------------------------------------------------------------------------
 
 app.Run();

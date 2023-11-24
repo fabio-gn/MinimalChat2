@@ -26,13 +26,13 @@ namespace MinimalChat.Controllers
             return View();
         }
 
-        [Authorize]
+        [Authorize(Roles = "Administrator")]
         [HttpGet]
         public IActionResult CreateRoom()
         {
             return View();
         }
-        [Authorize]
+        [Authorize(Roles = "Administrator")]
         [HttpPost]
         public IActionResult CreateRoom(Rooms room)
         {

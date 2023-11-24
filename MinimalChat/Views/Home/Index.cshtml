@@ -14,9 +14,9 @@
             </div>
 
 
-            <a class="btn btn-outline-dark" asp-action="CreateRoom" asp-controller="Home" role="button">Crea stanza</a>
+            <a class="btn btn-outline-light mb-3" asp-action="CreateRoom" asp-controller="Home" role="button">Crea stanza</a>
 
-            <table>
+            <table class=" border border-light">
 
                 <tbody>
                     <tr>
@@ -44,7 +44,7 @@
                                 @room.RoomDescription
                             </td>
                             <td>
-                                <a class="btn btn-dark" asp-controller="Room" asp-action="Enter" asp-route-id="@room.Id">Partecipa</a>
+                                <a class="btn btn-outline-success" asp-controller="Room" asp-action="Enter" asp-route-id="@room.Id">Partecipa</a>
                             </td>
                         </tr>
                     }
