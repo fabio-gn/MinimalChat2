@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MinimalChat.Data;
 
@@ -11,9 +12,10 @@ using MinimalChat.Data;
 namespace MinimalChat.Migrations
 {
     [DbContext(typeof(MinimalChatDbContext))]
-    partial class MinimalChatDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231214153934_aggiunto Messaggi")]
+    partial class aggiuntoMessaggi
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -242,10 +244,6 @@ namespace MinimalChat.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("RoomId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("TextMessage")
                         .IsRequired()

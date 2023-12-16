@@ -24,5 +24,6 @@ public class MinimalChatDbContext : IdentityDbContext<MinimalChatUser>
 
     public DbSet<Rooms> Rooms { get; set; }
     public DbSet<MinimalChatUser> Users { get; set; }
+    public DbSet<ChatTexts> ChatTexts { get; set; }
     //public DbSet<Roles> Roles { get; set; }
 }
