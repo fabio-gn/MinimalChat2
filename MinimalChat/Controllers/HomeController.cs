@@ -41,7 +41,7 @@ namespace MinimalChat.Controllers
 
             chatDbContext.Add(room);
             chatDbContext.SaveChanges();
-            return View();
+            return RedirectToAction("Enter", "Room", new { id = room.Id });
         }
 
         public IActionResult Privacy()

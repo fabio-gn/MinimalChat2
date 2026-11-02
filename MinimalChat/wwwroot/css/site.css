@@ -71,5 +71,8 @@ input{
     color: black;
 }
 label{
+    color: white;
+}
+.form-floating label{
     color: black;
 }
